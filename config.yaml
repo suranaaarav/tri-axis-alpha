@@ -1,0 +1,35 @@
+data:
+  # === Core equity panel ===
+  ret_sample_csv: "./data/raw/equities/ret_sample.csv"
+  factor_char_list_csv: "./data/raw/equities/factor_char_list.csv"
+  market_csv: "./data/raw/equities/mkt_ind.csv"
+
+  # === Fundamentals (accounting ratios) ===
+  acc_ratios_csv: "./data/raw/fundamentals/acc_ratios.csv"
+
+  # === Text (10-K / 10-Q PKLs by year) ===
+  text_dir: "./data/raw/text"
+
+  # === Optional mapping tables (only if needed later) ===
+  # cik_gvkey_link: "./data/raw/mappings/cik_gvkey_linktable_USA_only.csv"
+  # na_company_map: "./data/raw/mappings/North America Company Name Merge by DataDate-GVKEY-IID.csv"
+  # global_company_map: "./data/raw/mappings/Global (ex Canada and US) Company Name Merge by DataDate-GVKEY-IID.csv"
+  # sector_info: "./data/raw/mappings/Sector Info SIC and GIC codes All Countries to merge by GVKEY and Date.csv"
+
+output_dir: "./outputs"
+
+training:
+  start_date: "2005-01-01"       # earliest date in your panel
+  first_train_years: 8           # training window length
+  validation_years: 2            # validation window length
+  step_years: 1                  # expand forward 1 year at a time
+  end_year: 2025
+
+model:
+  target: "ret_fwd_1m"
+  n_regimes: 3                   # KMeans clusters
+
+portfolio:
+  min_holdings: 100
+  max_holdings: 250
+  long_short_target: "auto"      # auto-switch by regime (risk-on = long-short, risk-off = long-only)
